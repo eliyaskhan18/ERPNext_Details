@@ -1,0 +1,250 @@
+<style>
+	.print-format table, .print-format tr, 
+	.print-format td, .print-format div, .print-format p {
+		font-family: Monospace;
+		line-height: 200%;
+		vertical-align: middle;
+	}
+	@media screen {
+		.print-format {
+			width: 4in;
+			padding: 0.25in;
+			min-height: 8in;
+		}
+	}
+
+</style>
+
+<div class="Header">
+	
+	<img src = "/files/alpinestars.svg" width = "115px" align="left">
+	
+
+       <img src = "/files/PDSG_BnW_Logo.jpg" width = "115px" align="right">
+
+</div>
+<table style="width:100%">
+  
+  <tr>
+	
+    <td align="left"><img src = "/files/BBC_BnW_Logo.jpg" width = "115px">
+{%- set item_record = frappe.get_doc("Address", doc.company_address) -%}
+      <!--<td>
+	<b>{{ _("Receipt No") }}:</b> {{ doc.name }}
+     </td>-->
+	
+	
+
+	
+     <td>
+	<b>{{ _("Company") }}:</b> {{ doc.company }}</b></br>
+    
+	<b>{{ _("Address") }}:</b> {{ item_record.name }} {{ item_record.address_line1 }} {{ item_record.city }} {{ item_record.country }} {{item_record.pincode}}</br>
+     
+	<b>{{ _("Phone") }}:</b> {{ item_record.phone }}</br>
+     
+	<b>{{ _("GSTIN") }}:</b> {{ doc.company_gstin }}</br>
+     </td>
+  </tr>
+</div></table>
+<hr>
+<p>
+<b><u>{{ doc.name }}</u></b></p>
+</p>
+<hr>
+ 
+<table style="width:100%">
+ <tr>
+  <td align="left">
+	<b>{{ _("Invoice Number") }}:</b> {{ doc.name }}
+     </td>
+  <td align="right">
+	<b>{{ _("Invoice Date") }}:</b> {{ doc.get_formatted("posting_date") }}
+  </td>
+
+ </tr>
+</table>
+
+
+<hr>
+<table>
+  {% if doc.customer_address %}
+	
+	<tr>
+	<td>
+	{% if doc.customer_type == "Individual"%}
+		{{ doc.customer_name }}
+		
+	{% endif %}
+
+	{% if doc.customer_type == "Company"%}
+		{% if doc.customer_address %}
+			{%- set customer_details = frappe.get_doc("Address", {"name": doc.customer_address}) -%}
+			{% if (doc.customer_address != "") and (doc.customer_address != null) %}
+				{{ doc.customer_address }}<br>
+				{{  customer_details.address_line1 }} 
+				{{ customer_details.address_line2 }} 
+				{{ customer_details.city }} 
+				{{ customer_details.state }} 
+				{{ customer_details.pincode }} 
+			{% endif %}
+		{% endif %}
+			{% if (doc.customer_gstin != "") and (doc.customer_gstin != None) %}
+				<br>{{ doc.customer_gstin }}
+			{% endif %}
+		
+	{% endif %}
+
+	</td>
+	</tr>
+<hr>
+  {% endif %}
+</table>
+<p>
+	{% if doc.grand_total > 50000 %}
+		{% if doc.customer_address %}
+			{% set customer_address = doc.address_display.replace("\n", " ").replace("<br>", " ") %}
+			<b>{{ _("Customer") }}:</b><br>
+			{{ doc.customer_name }}<br>
+			{{ customer_address }}
+		{% endif %}
+	{% endif %}
+</p>
+<p class="text-center">
+	{{ doc.company }}<br>
+	{% if doc.company_address_display %}
+		{% set company_address = doc.company_address_display.replace("\n", " ").replace("<br>", " ") %}
+		{% if "GSTIN" not in company_address %}
+			{{ company_address }}
+			<b>{{ _("GSTIN") }}:</b>{{ doc.company_gstin }}
+		{% else %}
+			{{ company_address.replace("GSTIN", "<br>GSTIN") }}
+		{% endif %}
+	{% endif %}
+	<br>
+	<b>{{ doc.select_print_heading or _("Invoice") }}</b><br>
+</p>
+<hr>
+</style><table style="width:100%">
+  <tr>
+    <td width="50%">
+	<b>Customer:</b></td>
+    <td width="50%"; align="center"> {{ doc.customer }}</td>
+
+  </tr>
+</div></table>
+
+
+<hr>
+
+<table class="table table-bordered css-serial">
+ <tbody>
+  <tr>
+  	<th><font size = "1">Sl No</font></th>
+	<th><font size = "1">Item Name</font></th>
+	<th><font size = "1">MRP</font></th>
+	<th><font size = "1">Discount</font></th>
+	<th><font size = "1">Discount Price</font></th>
+	<th><font size = "1">Qty</font></th>
+	<th><font size = "1">Total</font></th>
+  </tr>
+	
+	
+		{%- for item in doc.items -%}
+	<tr>
+		
+			<td>  </td>
+			<td>{{item.item_name}}</td>
+			<td>{{item.price_list_rate}}</td>
+			<td>{{item.price_list_rate-item.rate}}</td>
+			<td>{{item.rate}}</td>
+			<td>{{item.qty}}</td>
+			<td>{{item.amount}}
+		
+	</tr>
+	
+	{%- endfor -%}
+ </tbody>
+</table>
+<!--
+<table class="table table-condensed cart no-border">
+	<thead>
+		<tr>
+			<th width="40%">{{ _("Item") }}</b></th>
+			<th width="30%" class="text-right">{{ _("Qty") }}</th>
+			<th width="30%" class="text-right">{{ _("Amount") }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{%- for item in doc.items -%}
+		<tr>
+			<td>
+				{{ item.item_code }}
+				{%- if item.item_name != item.item_code -%}
+					<br>{{ item.item_name }}
+				{%- endif -%}
+				{%- if item.gst_hsn_code -%}
+					<br><b>{{ _("HSN/SAC") }}:</b> {{ item.gst_hsn_code }}
+				{%- endif -%}
+				{%- if item.serial_no -%}
+					<br><b>{{ _("Serial No") }}:</b> {{ item.serial_no }}
+				{%- endif -%}
+			</td>
+			<td class="text-right">{{ item.qty }}<br>@ {{ item.rate }}</td>
+			<td class="text-right">{{ item.get_formatted("amount") }}</td>
+		</tr>
+		{%- endfor -%}
+	</tbody>
+</table>
+-->
+<table class="table table-condensed no-border">
+	<tbody>
+		
+		<tr>
+			{% if doc.additional_discount_percentage %}
+				<td class="text-right" style="width: 70%">
+					<b>{{ _("Total") }}</b>
+				</td>
+				<td class="text-right">
+					{{ doc.get_formatted("total", doc) }}
+				</td>
+		</tr>
+		<tr>
+				<td class="text-right" style="width: 75%">
+				<b>{{ _("Additional Discount") }}</b>
+				</td>
+				<td class="text-right">
+					{{ doc.get_formatted("discount_amount") }}
+				</td>
+		</tr>
+		<tr>
+				<td class="text-right" style="width: 75%">
+				<b>{{ _("Grand Total") }}</b>
+				</td>
+				<td class="text-right">
+					{{ doc.get_formatted("grand_total") }}
+				</td><hr>
+		</tr>
+			{% else %}
+				<tr>
+					<td class="text-right" style="width: 75%">
+					<b>{{ _("Grand Total") }}</b>
+					</td>
+					<td class="text-right">
+						{{ doc.get_formatted("grand_total") }}
+					</td>
+				
+				</tr>
+		
+			{% endif %}
+			
+	</tbody>
+</table>
+<p><b>Tax Breakup:</b></p>
+{% if doc.other_charges_calculation %}
+<div style="font-size: 8px">
+	{{ doc.other_charges_calculation }}
+</div>
+{%- endif -%}
+<p>{{ doc.terms or "" }}</p>
+<p class="text-center">{{ _("Thank you, please visit again.") }}</p>

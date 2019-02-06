@@ -1,0 +1,460 @@
+<div class = "letter head">
+	<table border =0>
+		<tbody>
+			<tr>
+                        	<td style=" padding: 0px 0px 0px 0px !important;" colspan=1 width = "400">
+                                   <div><font size = "2"><b> GSTN No: 09AARCS2818J1ZS</b></font>
+                                </td>
+                                <td style=" padding: 0px 0px 0px 0px !important;" colspan=1 width = "550"> 
+                                   
+                                   <div class = "text-left">
+				      <font size = "2"><b><u>Purchase Order</u></b></font>
+				    </div>
+				
+                               </td>
+                             <td style=" padding: 0px 0px 0px 0px !important;" colspan=1 width = 50">
+                               <div class = "text-right"><i></i>
+                                 
+                              </div>  
+                             </td>
+                          </tr>
+			</tbody>
+		</table>
+	</div>
+
+<div class = "letter head">
+	<table border =0>
+		<tbody>
+
+                	<tr>
+                        	<td style=" padding: 0px 0px 0px 0px !important;" colspan=1 width = "150">
+                                   <img src = "/files/LogoBonW.jpg" width = "150" height = "36">
+                                </td>
+                                <td style=" padding: 0px 0px 0px 0px !important;" colspan=1 width = "700"> 
+                                   
+                                   <div class = "text-center">
+				      <font size = "3"><b>Shark Shopfits Pvt Ltd</b></font>
+                                   </div>
+                                   <div class = "text-center">
+                                      <font size = "2">Plot No. 29 & 28A, Udyog Vihar, Ecotech II, Greater Noida District,</font>
+                                   </div>
+                                   <div class = "text-center">
+					<font size = "2">Gautam Budh Nagar (UP) - 201306,</font>
+				   </div>
+				   <div class = "text-center">
+                                    <b><font size = "2">Tel: 0120-4811000 </font></b>
+				     <br><br>
+				    </div>
+				
+                               </td>
+                             <td style=" padding: 0px 0px 0px 0px !important;" colspan=1 width = 150">
+				<div></div>
+			     </td>
+
+                          </tr>
+                      </tbody>
+                   </table>
+</div>
+        
+<hr>
+
+<div class="seller-info new-seller-info">
+	<table border =0>
+		<tbody>
+                	<tr>
+                        	<td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				  <font size = "2">
+	                          <div><b>Party Details</b> </div> <br>
+	                          <div><b>Address </b></div><br></font>
+				</td>
+				                                    
+                                <td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				<font size = "2">
+                                  <div><b>{{ doc.supplier_name or ""}}</b> </div>
+				 <div>{{ doc.address_line1 or "" }} </div>
+				 <div>{{ doc.address_line2 or "" }} </div>
+				 <div>{{ doc.city or "" }} </div>
+				 <div>{{ doc.pincode or "" }} </div>
+                       
+				</font>
+				</td>
+			
+   
+                               <td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+	                        <font size = "2">
+				  <div><b>Order No:</b></div>
+	                          <div><b>Date </b></div>
+				{% if doc.status == "Cancelled"%}
+				   <div><b>Status </b></div>  
+				{% elif doc.status == "Draft"%}
+				   <div><b>Status </b></div>  
+				{% endif %}                 
+				  <div><b> Project Code </b></div>
+				  <div><b> Requisition No. </b></div>
+				 <div><b> Material Request No.</b></div>
+				</font>
+				</td>
+				 
+ 
+                              <td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				<font size = "2">
+				<div>{{ doc.name }}</div>
+				<div>{{ doc.get_formatted("transaction_date") }}</div> 
+				{% if doc.status == "Cancelled" %}
+					<div> {{doc.status}}</div>
+				{% elif doc.status == "Draft"%}
+					<div> {{doc.status}}</div>
+				{% endif %}
+			   {% if doc.project %}
+				<div>{{doc.project}} </div>
+			   {% else %}
+				<br>
+				
+			   {% endif %}
+			    
+			  {% if doc.stockreq %}
+                                <div>{{ doc.stockreq }}</div> 
+			  {% else %}
+				<br>
+			  {% endif %}
+
+
+				</font>
+				</td>
+			
+			</td>
+			</tr>					
+			<tr>
+			    <td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				<font size = "2">
+				<div><b>GST No </b></div>
+				<div><b>State & Code</b></div>
+                                 </font>
+                             </td>
+			     <td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				<font size = "2">
+				{% if doc.supp_gstin %}
+				<div>{{ doc.supp_gstin }} </div>
+				{% else %}
+				 <br>
+				{% endif %}
+			       {% if doc.supp_state %}
+                                <div>{{ doc.supp_state }}: {{doc.supp_state_number }}</div>
+				{% else %}
+					<br>
+				{% endif %}
+				</font>
+                              </td>
+			      <td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				<font size = "2">
+				<div><b>Payment</b> </div>
+                                <div><b>PO Log in Date </b></div>
+				
+				</font>
+                              </td>
+				<td style=" padding: 0px 6px 0px 6px !important;" width = "200">
+				<font size = "2">
+				{% if doc.payment_terms_template %}
+					<div>{{doc.payment_terms_template}}</div>
+				{% else %}
+					<br>
+				{% endif %}
+                                <div>{{ doc.get_formatted("transaction_date")}}</div>
+				{% if doc.tracking_no %}
+					<div>{{ doc.tracking_no }}</div>
+				{% else %}
+					<br>
+				{% endif %}
+				</font>
+                              </td>
+                           </tr>
+
+			                      	                          
+                         </tbody>
+                      </table>
+                 </div>
+
+<div><font size = "2"> We are pleased to place the order for the following items :</div></font>
+<table border = 1; width = "750">
+	<tbody>
+                 
+		<tr>
+			<font size = "2">
+                        <th>Sr</th>
+			<th>Description</th>
+			<th>Stock UoM</th>
+			<th class="text-right">Stock Qty</th>
+			<th class="text-right">Qty</th>
+			<th class="text-right">Units</th>
+			<th class="text-right">Price</th>
+			<th class="text-right">Amount</th>
+			</font>
+		</tr>
+
+			{% set cgst_rate = [] -%}
+		 {% set sgst_rate = [] -%}
+		 {% set igst_rate = [] -%}
+		{% set cgst_account_head = [] -%}
+		 {% set sgst_account_head = [] -%}
+		 {% set igst_account_head = [] -%}
+		{% set tot_cgst_amount = [] %}
+		{% set tot_sgst_amount = [] %}
+		{% set count = [] %}
+		{% set grand_total = {"qty":0, "amount":0.0, "cgst_amt":0.0, "sgst_amt":0.0, "igst_amt":0.0} %}
+
+		{%- for row in doc.taxes -%}
+	  	   {% if 'CGST' in row.account_head -%}
+			{% set _ = cgst_account_head.append(row.account_head) %}
+			{% set _ = cgst_rate.append(row.rate) %}
+			
+		   {%- endif -%}
+		   {% if 'SGST' in row.account_head -%}
+			 {% set _ = sgst_account_head.append(row.account_head) %}
+			{% set _ = sgst_rate.append(row.rate) %}
+			
+		   {%- endif -%}
+		   {% if 'IGST' in row.account_head -%}
+
+			{% set _ = igst_account_head.append(row.account_head) %}
+			{% set _ = igst_rate.append(row.rate) %}
+			
+		   {%- endif -%}
+		{%- endfor -%}
+
+	{%- for row in doc.items -%}
+		<tr>
+		        {% set cgst_amt = [] -%}
+		 	 {% set sgst_amt = [] -%}
+			 {% set igst_amt = [] -%}
+			 {% set it_cgst_rate = [] -%}
+		 	 {% set it_sgst_rate = [] -%}
+			 {% set it_igst_rate = [] -%}
+			 {% set rate_found_item = 0 -%}
+			{% set _ = count.append(loop.index) %}
+
+								
+		      {%- set item_record = frappe.get_doc("Item", row.item_code) -%}
+			{% for item_tax in item_record.taxes %}
+
+  			  {% if item_tax.tax_type == igst_account_head[0] %}
+				
+				{% set _ = it_igst_rate.append(item_tax.tax_rate) %}
+				{% set _ = igst_amt.append(row.amount * it_igst_rate[0] / 100) -%}
+				{% set rate_found_item = 1 -%}
+			{% endif %}		
+			{% if item_tax.tax_type == sgst_account_head[0] %}
+				
+				{% set _ = it_sgst_rate.append(item_tax.tax_rate) %}
+				{% set _ = sgst_amt.append(row.amount * it_sgst_rate[0] / 100) -%}
+				{% set rate_found_item = 1 -%}
+			{% endif %}	
+			{% if item_tax.tax_type == cgst_account_head[0] %}
+				{% set _ = it_cgst_rate.append(item_tax.tax_rate) %}
+				{% set _ = cgst_amt.append(row.amount * it_cgst_rate[0] / 100) -%}
+				{% set rate_found_item = 1 -%}
+			{% endif %}		
+
+
+		{% endfor %}	
+	  	{% if rate_found_item == 0 %}
+
+			{% if cgst_rate[0] -%}
+			   {% set _ = cgst_amt.append((row.amount * cgst_rate[0])/100) -%}
+			   {% set _= it_cgst_rate.append(cgst_rate[0]) -%}
+			   {% set rate_found_inv = 1 -%}
+		       	{%- endif -%}
+			{% if sgst_rate[0] -%}
+			   {% set _ = sgst_amt.append((row.amount * sgst_rate[0])/100) -%}
+			   {% set _= it_sgst_rate.append(sgst_rate[0]) -%}
+			   
+		       	{%- endif -%}
+			{% if igst_rate[0] -%}
+			   {% set _ = igst_amt.append((row.amount * igst_rate[0])/100) -%}
+			   {% set _= it_igst_rate.append(igst_rate[0]) -%}
+			   {% set rate_found_inv = 1 -%}
+		       	{%- endif -%}
+		{% endif %}
+	
+	
+		{% if not it_cgst_rate[0] %}
+			{% set _ = it_cgst_rate.append(0) %}
+			{% set _ = cgst_amt.append(0) %}
+		{% endif %}
+		{% if not it_sgst_rate[0] %}
+			{% set _ = it_sgst_rate.append(0) %}
+			{% set _ = sgst_amt.append(0) %}
+		{% endif %}
+		{% if not it_igst_rate[0] %}
+			{% set _ = it_igst_rate.append(0) %}
+			{% set _ = igst_amt.append(0) %}
+		{% endif %}
+
+		{% set temp_cgst_amt = grand_total["cgst_amt"] + cgst_amt[0] %}
+		{% set temp_sgst_amt = grand_total["sgst_amt"] + sgst_amt[0] %}
+		{% set temp_igst_amt = grand_total["igst_amt"] + igst_amt[0] %}
+		{% set temp_qty = grand_total["qty"] + row.qty %}
+		{% set temp_amount = grand_total["amount"] + row.amount %}
+		{% set check = grand_total.update({"qty": temp_qty, "amount": temp_amount, "cgst_amt":temp_cgst_amt, "sgst_amt":temp_sgst_amt, "igst_amt":temp_igst_amt}) %}
+
+
+			<td style="width: 5%;"><font size = "2">{{ row.idx }}</font></td>
+			<td style="width: 23%;">
+				<font size = "2">
+				{% if row.item_code != row.item_name -%}
+				<b>{{ row.item_code}}</b><br>
+				{%- endif %}
+                                {{ row.item_name }}
+				</font>
+			</td>
+			<td style="width: 12%;"><font size = "2">{{ row.stock_uom }}</font></td>
+			<td style="width: 12%; text-align: right;"><font size = "2">{{ "{:,.2f}".format(row.stock_qty) }}</font></td>
+			<td style="width: 12%; text-align: right;"><font size = "2">{{ row.qty }}</font></td>
+			<td style="width: 12%; text-align: left;"><font size = "2">{{ row.uom or row.stock_uom }}</font> </td>
+			<td style="width: 12%; text-align: right;"><font size = "2">{{
+				row.get_formatted("rate", doc) }}</font></td>
+			<td style="width: 12%; text-align: right;"><font size = "2">{{
+				row.get_formatted("amount", doc) }}</font></td>
+
+		
+</tr>
+{%- endfor -%}
+</tbody>
+</table>
+ {% set item_count = count|length %}
+
+<table class="noborder">
+	<tbody>
+		{%- if doc.discount_amount -%}
+		<tr>
+			<td class="text-right" width = "700">
+			<font size = "2">
+				<b>{{ ("Discount") }}</b>
+			</font>
+			</td>
+			<td class="text-right" width = "100">
+			</td>
+			<td class="text-right" width = "200">
+			<font size = "2">
+				{{ doc.get_formatted("discount_amount") }}
+			</font>
+			</td>
+		</tr>
+		{%- endif -%}
+
+            	<tr>
+                   <td class="text-right" width = "700">
+			<font size = "2">	
+				<b>{{ ("Total") }}</b>
+			</font>
+		    </td>
+		  <td class="text-right" width = "100">
+		</td>
+                    <td class="text-right" width= "200">
+			<font size = "2">
+				{{ doc.get_formatted("net_total") }}
+			</font>
+		    </td>
+		</tr>
+             
+           	{%- for row in doc.taxes -%}
+	  	  {%- if not row.included_in_print_rate -%}
+		  <tr>
+			<td class="text-right" width = "700">
+			<font size = "2">
+				<b>{{ row.description }}</b>
+			</font>
+			</td>
+			<td class="text-right" width = "100">
+			<font size = "2">
+			{% if row.rate > 0 %}
+				<b>@ {{ row.rate }}%</b>
+			{% endif %}
+			</font>	
+			</td>
+			<td class="text-right" width= "200">
+			<font size = "2">
+				{{ row.get_formatted("tax_amount", doc) }}
+			</font>
+			</td>
+		 </tr>
+		{%- endif -%}
+		{%- endfor -%}
+                 
+		
+		<tr>
+			<td class="text-right" width = "700">
+			<font size = "2">
+				<b>{{ ("Grand Total") }}</b>
+			</font>
+			</td>
+			<td class="text-right" width = "100">
+			</td>
+			<td class="text-right" width = "200">
+			<font size = "2">
+				{{ doc.get_formatted("grand_total") }}
+			</font>
+			</td>
+		</tr>
+                <tr>
+			<td class="text-right" width = "700">
+			<font size = "2">
+				<b>{{ ("Rounded Total") }}</b>
+			</font>
+			</td>
+			<td class="text-right" width = "100">
+			</td>
+			<td class="text-right" width = "200">
+			<font size = "2">
+				{{ doc.get_formatted("rounded_total") }}
+			</font>
+			</td>
+		</tr>
+                  
+                <tr>
+			<td class="text-right" width = "1000">
+			<font size = "2">
+				<b>{{ ("In Words :") }}</b>
+                        	{{ doc.in_words }} <br>
+			</font>
+                       </td>
+                 </tr>
+
+
+ </tbody>
+</table>          
+
+<hr>
+<div class="Header">
+	<table border =0>
+		<tbody>
+                	<tr>
+			    <td style=" padding: 0px 6px 0px 6px !important;" colspan=1 width = "400">
+				<font size = "2">
+				<div>{{ doc.terms }}
+				</font>
+			    </td>
+			    <td style=" padding: 0px 6px 0px 6px !important;" colspan=1 width = "400">
+			   </td>
+			</tr>
+			<tr>
+			    <td style=" padding: 0px 6px 0px 6px !important;" colspan=1 width = "400">
+			    </td>
+			    <td style=" padding: 0px 6px 0px 6px !important;" colspan=1 width = "400">
+				{% if item_count == 1 %}
+					<br><br><br>
+				{% endif %}
+				
+				<font size = "2">	
+
+				<div class = "text-right"><h5>for <b>Shark Shopfits Pvt Ltd.</b></h5><p><br></p><p><br></p><p><br></p><p>
+				<div class = "text-right"><h5> Authorised Signatory</b><br></p>
+				</div>
+				</font>
+
+				</td>
+
+                        	
+			</tr>
+		</tbody>
+	</table>
+</div>
